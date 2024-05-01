@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,10 @@ public class UserController {
         if(result.hasErrors()) {
             return validException(result);
         }
+        if(!user.getEmail().isEmpty() && userService.findByEmail(user.getEmail()).isPresent()){
+            return ResponseEntity.badRequest().body(
+                    Collections.singletonMap("message", "Already exists a user with that email"));
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(user));
     }
 
@@ -58,6 +63,10 @@ public class UserController {
         }
         if(!userService.existUser(userId)){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        if(userService.findByEmail(users.getEmail()).isPresent()){
+            return ResponseEntity.badRequest().body(
+                    Collections.singletonMap("message", "Already exists a user with that email"));
         }
         return ResponseEntity.ok().body(userService.updateUser(userId, users));
     }

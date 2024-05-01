@@ -9,6 +9,7 @@ public interface UserService {
 
     List<Users> findAllUsers();
     Optional<Users> findUserById(Long userId);
+    Optional<Users> findByEmail(String email);
     Users saveUser(Users user);
     Users updateUser(Long userId, Users user);
     Boolean deleteUser(Long userId);
