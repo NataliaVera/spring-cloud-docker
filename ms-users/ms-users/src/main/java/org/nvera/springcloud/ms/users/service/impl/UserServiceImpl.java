@@ -1,5 +1,6 @@
 package org.nvera.springcloud.ms.users.service.impl;
 
+import org.nvera.springcloud.ms.users.client.CourseClientRest;
 import org.nvera.springcloud.ms.users.entities.Users;
 import org.nvera.springcloud.ms.users.repository.UserRepository;
 import org.nvera.springcloud.ms.users.service.UserService;
@@ -12,6 +13,9 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private CourseClientRest courseClientRest;
 
     @Autowired
     private UserRepository repository;
@@ -66,6 +70,7 @@ public class UserServiceImpl implements UserService {
             return Boolean.FALSE;
         }
         repository.deleteById(userId);
+        courseClientRest.deleteUserFromCourseByUserId(userId);
         return Boolean.TRUE;
     }
 

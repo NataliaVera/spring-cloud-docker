@@ -14,6 +14,7 @@ public interface CourseService {
     Course updateCourse(Long courseId, Course course);
     Boolean deleteCourse(Long courseId);
     Boolean existsCourse(Long courseId);
+    void deleteUserFromCourseByUserId(Long userId);
 
     Optional<UserDAO> assignUser(UserDAO userPOJO, Long courseId);
     Optional<UserDAO> createUser(UserDAO userPOJO, Long courseId);

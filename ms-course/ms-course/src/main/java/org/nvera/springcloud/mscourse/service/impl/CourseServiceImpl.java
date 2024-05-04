@@ -68,6 +68,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
+    public void deleteUserFromCourseByUserId(Long userId) {
+        courseRepository.deleteUserFromCourse(userId);
+    }
+
+    @Override
+    @Transactional
     public Optional<UserDAO> assignUser(UserDAO user, Long courseId) {
         Optional<Course> courseOptional = courseRepository.findById(courseId);
         if(courseOptional.isPresent()){
