@@ -15,6 +15,4 @@ public interface UserClientRest {
 
     @PostMapping("/user/save")
     UserDAO createUser(@RequestBody UserDAO userPOJO);
-
-
 }

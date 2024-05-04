@@ -44,6 +44,11 @@ public class UserController {
         return ResponseEntity.ok().body(optionalUsers);
     }
 
+    @GetMapping("/userspercourse")
+    public ResponseEntity<?> getStudentsPerCourse(@RequestParam List<Long> ids){
+        return ResponseEntity.ok(userService.findAllUsersById(ids));
+    }
+
     @PostMapping("/save")
     public ResponseEntity<?> saveUser(@Valid @RequestBody Users user, BindingResult result) {
         if(result.hasErrors()) {

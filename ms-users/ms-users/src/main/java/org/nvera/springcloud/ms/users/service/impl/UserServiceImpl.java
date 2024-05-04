@@ -29,6 +29,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Users> findAllUsersById(Iterable<Long> ids) {
+        return (List<Users>) repository.findAllById(ids);
+    }
+
+    @Override
     public Optional<Users> findByEmail(String email) {
         return repository.findByEmail(email);
     }
@@ -66,5 +72,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean existUser(Long userid) {
         return repository.existsById(userid);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return repository.existsByEmail(email);
     }
 }

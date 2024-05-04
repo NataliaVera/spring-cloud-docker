@@ -34,7 +34,7 @@ public class Course {
     @JoinColumn(name = "course_id") //foreign key
     private List<CourseUser> courseUsers;
     @Transient
-    private List<UserDAO> userPOJOS;
+    private List<UserDAO> userDAOList;
 
     public void addCourseUser(CourseUser courseUser){
         courseUsers.add(courseUser);
@@ -46,6 +46,6 @@ public class Course {
 
     public Course() {
         courseUsers = new ArrayList<>();
-        userPOJOS = new ArrayList<>();
+        userDAOList = new ArrayList<>();
     }
 }
