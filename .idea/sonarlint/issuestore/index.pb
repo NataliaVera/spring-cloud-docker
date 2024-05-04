@@ -5,3 +5,15 @@
 Vms-users/ms-users/src/main/java/org/nvera/springcloud/ms/users/MsUsersApplication.java,7\e\7e072dadced08af7bf754125c2e4ae5004d5a8e5
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+ë
+ams-course/ms-course/src/main/java/org/nvera/springcloud/mscourse/repository/CourseRepository.java,e\3\e38f53b86f19d40ba843a079c25a733eefe37087
+K
+ms-course/ms-course/pom.xml,9\7\97d4c0cc36f0637b60ce188e49b2f1495410d7bc
+I
+ms-users/ms-users/pom.xml,e\5\e5bd22610cd288b27d8be8c2bea6733023f8018f
+á
+Wms-users/ms-users/src/main/java/org/nvera/springcloud/ms/users/service/UserService.java,e\0\e0024b62dd65e787e7fc1de2dc6b079d58ddf121
+ê
+`ms-users/ms-users/src/main/java/org/nvera/springcloud/ms/users/service/impl/UserServiceImpl.java,4\a\4a23ad49f769a192815c384ac6157e36cb24c39c
+ç
+]ms-users/ms-users/src/main/java/org/nvera/springcloud/ms/users/repository/UserRepository.java,7\e\7e66bd256d0ef02d5a8d5f5806115aa8460521bc

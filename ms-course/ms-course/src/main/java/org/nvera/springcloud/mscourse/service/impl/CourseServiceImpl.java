@@ -1,6 +1,9 @@
 package org.nvera.springcloud.mscourse.service.impl;
 
-import org.nvera.springcloud.mscourse.entity.Course;
+import org.nvera.springcloud.mscourse.clients.UserClientRest;
+import org.nvera.springcloud.mscourse.models.UserDAO;
+import org.nvera.springcloud.mscourse.models.entity.Course;
+import org.nvera.springcloud.mscourse.models.entity.CourseUser;
 import org.nvera.springcloud.mscourse.repository.CourseRepository;
 import org.nvera.springcloud.mscourse.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private UserClientRest userClientRest;
 
     @Override
     @Transactional(readOnly = true)
@@ -59,5 +64,59 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Boolean existsCourse(Long courseId) {
         return courseRepository.existsById(courseId);
+    }
+
+    @Override
+    @Transactional
+    public Optional<UserDAO> assignUser(UserDAO user, Long courseId) {
+        Optional<Course> courseOptional = courseRepository.findById(courseId);
+        if(courseOptional.isPresent()){
+            UserDAO msUser = userClientRest.userDetails(user.getUserid());
+
+            Course course = courseOptional.get();
+            CourseUser courseUser = new CourseUser();
+            courseUser.setUserid(msUser.getUserid());
+
+            course.addCourseUser(courseUser);
+            courseRepository.save(course);
+            return Optional.of(msUser);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    @Transactional
+    public Optional<UserDAO> createUser(UserDAO user, Long courseId) {
+        Optional<Course> courseOptional = courseRepository.findById(courseId);
+        if(courseOptional.isPresent()){
+            UserDAO msUser = userClientRest.createUser(user);
+
+            Course course = courseOptional.get();
+            CourseUser courseUser = new CourseUser();
+            courseUser.setUserid(msUser.getUserid());
+
+            course.addCourseUser(courseUser);
+            courseRepository.save(course);
+            return Optional.of(msUser);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    @Transactional
+    public Optional<UserDAO> removeUser(UserDAO user, Long courseId) {
+        Optional<Course> courseOptional = courseRepository.findById(courseId);
+        if(courseOptional.isPresent()){
+            UserDAO msUser = userClientRest.userDetails(user.getUserid());
+
+            Course course = courseOptional.get();
+            CourseUser courseUser = new CourseUser();
+            courseUser.setUserid(msUser.getUserid());
+
+            course.removeCourseUser(courseUser);
+            courseRepository.save(course);
+            return Optional.of(msUser);
+        }
+        return Optional.empty();
     }
 }

@@ -1,6 +1,7 @@
 package org.nvera.springcloud.mscourse.service;
 
-import org.nvera.springcloud.mscourse.entity.Course;
+import org.nvera.springcloud.mscourse.models.UserDAO;
+import org.nvera.springcloud.mscourse.models.entity.Course;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,4 +14,8 @@ public interface CourseService {
     Course updateCourse(Long courseId, Course course);
     Boolean deleteCourse(Long courseId);
     Boolean existsCourse(Long courseId);
+
+    Optional<UserDAO> assignUser(UserDAO userPOJO, Long courseId);
+    Optional<UserDAO> createUser(UserDAO userPOJO, Long courseId);
+    Optional<UserDAO> removeUser(UserDAO userPOJO, Long courseId);
 }

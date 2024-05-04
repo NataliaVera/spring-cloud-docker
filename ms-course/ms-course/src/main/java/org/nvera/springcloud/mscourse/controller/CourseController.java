@@ -1,7 +1,9 @@
 package org.nvera.springcloud.mscourse.controller;
 
+import feign.FeignException;
 import jakarta.validation.Valid;
-import org.nvera.springcloud.mscourse.entity.Course;
+import org.nvera.springcloud.mscourse.models.UserDAO;
+import org.nvera.springcloud.mscourse.models.entity.Course;
 import org.nvera.springcloud.mscourse.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +72,51 @@ public class CourseController {
         }
         courseService.deleteCourse(courseId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/assignuser/{courseId}")
+    public ResponseEntity<?> assignUser(@RequestBody UserDAO user, @PathVariable Long courseId){
+        Optional<UserDAO> optionalUserDAO;
+        try{
+            optionalUserDAO = courseService.assignUser(user, courseId);
+        }catch (FeignException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Collections.singletonMap("message", "User doesn't exist by id"));
+        }
+        if(optionalUserDAO.isPresent()){
+            return ResponseEntity.status(HttpStatus.CREATED).body(optionalUserDAO.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/createuser/{courseId}")
+    public ResponseEntity<?> createUser(@RequestBody UserDAO user, @PathVariable Long courseId){
+        Optional<UserDAO> optionalUserDAO;
+        try{
+            optionalUserDAO = courseService.createUser(user, courseId);
+        }catch (FeignException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Collections.singletonMap("message", "Error create user"));
+        }
+        if(optionalUserDAO.isPresent()){
+            return ResponseEntity.status(HttpStatus.CREATED).body(optionalUserDAO.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/removeuser/{courseId}")
+    public ResponseEntity<?> removeUser(@RequestBody UserDAO user, @PathVariable Long courseId){
+        Optional<UserDAO> optionalUserDAO;
+        try{
+            optionalUserDAO = courseService.removeUser(user, courseId);
+        }catch (FeignException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Collections.singletonMap("message", "User doesn't exist by id"));
+        }
+        if(optionalUserDAO.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(optionalUserDAO.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
     private static ResponseEntity<Map<String, String>> validException(BindingResult result) {
